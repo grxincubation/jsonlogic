@@ -525,3 +525,11 @@
       (jsonlogic/apply {"!==" [{"a" 1}, {"a" 1}]}) =throws=> (IllegalArgumentException. "Unrecognized operation a"))
     (facts "Var cannot access certain valid JSON key names"
       (jsonlogic/apply {"var" "a.b.c"} {"a.b.c" 1}) => nil)))
+
+(deftest use-highest-precision-numeric-argument
+  (testing "# precision"
+    (facts "all numbers are coerced to highest precision number type"
+      (jsonlogic/apply {:* [50 1.5]}) => 75.0
+      (jsonlogic/apply {:* [1.5 50]}) => 75.0
+      (jsonlogic/apply {:* [52 5725.2]}) => 297710.39999999997 ;; yay for floating point math -- should be 297710.40, but computers
+      (jsonlogic/apply {:* [5725.2 52]}) => 297710.39999999997)))

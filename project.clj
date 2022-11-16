@@ -9,7 +9,7 @@
 
   :repl-options {:init-ns com.nytimes.jsonlogic}
 
-  :jvm-opts ["--add-opens" "java.base/java.lang=ALL-UNNAMED"]
+  :jvm-opts []
 
   :profiles {:dev {:source-paths ["dev"]
                    :jvm-opts     ["-Dorg.slf4j.simpleLogger.defaultLogLevel=debug"]

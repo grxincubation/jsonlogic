@@ -91,10 +91,14 @@
 
 (defn ^:no-doc coerce-double [x] (coerce x Double))
 
+(def precision-order
+  [Double Float Long Integer])
+
 (defn ^:no-doc coerce-numeric
   [xs]
-  (when-let [target (seek number? xs)]
-    (into [] (mapv #(coerce % (type target)) xs))))
+  (let [types (into #{} (map type xs))]
+    (when-let [to-type (some #(when (contains? types %) %) precision-order)]
+      (into [] (mapv #(coerce % to-type) xs)))))
 
 (defn ^:no-doc bool [x] (coerce x Boolean))
 (defn ^:no-doc falsy? [x]  (false? (bool x)))
